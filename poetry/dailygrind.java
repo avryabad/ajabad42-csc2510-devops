@@ -15,6 +15,13 @@ public static final void main(String[] args) {
   	if (its_time_to_go_home) {
             break;
       }
+      try {
+   	 Thread.sleep(60000); // Wait for 1 minute
+	} 
+      catch (InterruptedException e) {
+    	// ignore
+}
+
 
 
 }
