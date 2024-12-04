@@ -3,14 +3,44 @@
   become: yes
   become_method: sudo
 
-  tasks: 
-   - name: python install
-     apt: 
-      name: python3-apt
-      state: present
-      update_cache: yes
+  tasks:
+    - name: python install
+      apt:
+         name: python3-apt
+         state: present
+         update_cache: yes
 
-   - name: apache2 install
-     apt:
-      name: apache2 
-      state: present 
+    - name: apache2 install
+      apt:
+         name: apache2
+         state: present
+        
+    - name: Copy apache.conf to destination
+      ansible.builtin.copy:
+        src: /home/averyabad17/ajabad42-csc2510-devops/lab13foler/apache.conf
+        dest: /home/averyabad17/ajabad42-csc2510-devops/rootdirectory/files/config/apache.conf
+        owner: root
+        group: root
+        mode: '0644'
+
+    - name: Create a symbolic link for apache.conf
+      ansible.builtin.file:
+        src: /etc/apache2/sites-available/apache.conf
+        dest: /etc/apache2/sites-enabled/apache.conf
+        owner: root
+        group: root
+        state: link
+
+    - name: Copy index.html to /var/www/html/
+      ansible.builtin.copy:
+        src: /home/averyabad17/ajabad42-csc2510-devops/lab13foler/index.html
+        dest: /home/averyabad17/ajabad42-csc2510-devops/rootdirectory/files/site/
+        owner: www-data
+        group: www-data
+        mode: '0644'
+
+    - name: Restart apache2 service
+      ansible.builtin.service:
+        name: apache2
+        state: restarted
+
