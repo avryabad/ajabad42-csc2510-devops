@@ -1,0 +1,16 @@
+---
+- hosts: all
+  become: yes
+  become_method: sudo
+
+  tasks: 
+   - name: python install
+     apt: 
+      name: python3-apt
+      state: present
+      update_cache: yes
+
+   - name: apache2 install
+     apt:
+      name: apache2 
+      state: present 
